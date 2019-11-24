@@ -4,51 +4,40 @@
       <v-flex xs12>
         <h1>連絡先一覧</h1>
       </v-flex>
-      <v-data-table :headers="headers" :items="addresses" class="elevation-1">
-        <template v-slot:items="props">
-          <td class="text-xs-left">{{ props.item.name }}</td>
-          <td class="text-xs-left">{{ props.item.tel }}</td>
-          <td class="text-xs-left">{{ props.item.email }}</td>
-          <td class="text-xs-left">{{ props.item.address }}</td>
-        </template>
-      </v-data-table>
+
+      <v-flex xs-12 mt-5 text-xs-right>
+        <router-link :to="{name : 'address_edit'}">
+          <v-btn color="info">連絡先追加</v-btn>
+        </router-link>
+      </v-flex>
+      <v-flex mt-3 justify-center>
+        <v-data-table :headers="headers" :items="addresses" class="elevation-1">
+          <template v-slot:items="props">
+            <td class="text-xs-left">{{ props.item.name }}</td>
+            <td class="text-xs-left">{{ props.item.tel }}</td>
+            <td class="text-xs-left">{{ props.item.email }}</td>
+            <td class="text-xs-left">{{ props.item.address }}</td>
+          </template>
+        </v-data-table>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
  
 <script>
 export default {
+  created() {
+    this.addresses = this.$store.state.addresses;
+  },
   data() {
     return {
       headers: [
-        {
-          text: "名前",
-          value: "name"
-        },
+        { text: "名前", value: "name" },
         { text: "メールアドレス", value: "email" },
         { text: "電話番号", value: "tel" },
         { text: "住所", value: "address" }
       ],
-      addresses: [
-        {
-          name: "太郎1",
-          email: "hoge@hoge.com",
-          tel: "110-110-110",
-          address: "杉並区文京区港区1-2-3-4"
-        },
-        {
-          name: "太郎1",
-          email: "hoge@hoge.com",
-          tel: "110-110-110",
-          address: "杉並区文京区港区1-2-3-4"
-        },
-        {
-          name: "太郎1",
-          email: "hoge@hoge.com",
-          tel: "110-110-110",
-          address: "杉並区文京区港区1-2-3-4"
-        }
-      ]
+      addresses: []
     };
   }
 };
