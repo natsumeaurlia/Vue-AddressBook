@@ -4,11 +4,11 @@
       <v-list class="pa-1">
         <v-list-item-title avatar>
           <v-list-item-avatar>
-            <img src="../assets/FWiqRi2J_400x400.jpg" />
+            <img v-if="photoUrl" :src="photoUrl" />
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>natsume</v-list-item-title>
+            <v-list-item-title>{{userName}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item-title>
       </v-list>
@@ -35,6 +35,7 @@
 }
 </style>
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -51,6 +52,9 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    ...mapGetters(["userName", "photoUrl"])
   }
 };
 </script>

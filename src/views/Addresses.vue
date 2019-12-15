@@ -10,13 +10,17 @@
           <v-btn color="info">連絡先追加</v-btn>
         </router-link>
       </v-flex>
-      <v-flex mt-3 justify-center>
-        <v-data-table :headers="headers" :items="addresses" class="elevation-1">
-          <template v-slot:items="props">
-            <td class="text-xs-left">{{ props.item.name }}</td>
-            <td class="text-xs-left">{{ props.item.tel }}</td>
-            <td class="text-xs-left">{{ props.item.email }}</td>
-            <td class="text-xs-left">{{ props.item.address }}</td>
+      <v-flex xs12 mt-3 ml-5 mr-5>
+        <v-data-table :headers="headers" :items="addresses">
+          <template v-slot:item.action="{ item }">
+            <span>
+              <router-link :to="{ name: 'address_edit', params: { address_id: item.id }} ">
+                <v-icon small class="mr-2">edit</v-icon>
+              </router-link>
+            </span>
+            <span>
+              <v-icon small class="mr-2" @click="deleteConfirm(item.id)">delete</v-icon>
+            </span>
           </template>
         </v-data-table>
       </v-flex>
@@ -25,6 +29,7 @@
 </template>
  
 <script>
+import { mapActions } from "vuex";
 export default {
   created() {
     this.addresses = this.$store.state.addresses;
@@ -35,10 +40,24 @@ export default {
         { text: "名前", value: "name" },
         { text: "メールアドレス", value: "email" },
         { text: "電話番号", value: "tel" },
-        { text: "住所", value: "address" }
+        { text: "住所", value: "address" },
+        { text: "操作", value: "action" }
       ],
       addresses: []
     };
+  },
+  methods: {
+    deleteConfirm(id) {
+      if (confirm("削除します")) {
+        this.deleteAddress;
+      }
+    },
+    ...mapActions(["deleteAddress"])
   }
 };
 </script>
+<style lang="scss" scoped>
+a {
+  text-decoration: none;
+}
+</style>
